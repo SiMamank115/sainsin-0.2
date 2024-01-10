@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root:has(input.theme-controller[value="nord"]:checked) {
+	--rounded-box: 1rem;
+	--rounded-btn: 0.5rem;
+	--rounded-badge: 1.9rem;
+}

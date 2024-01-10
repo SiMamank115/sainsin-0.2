@@ -1,0 +1,8 @@
+{
+  "name": "sainsin-v0.2",
+  "version": "0.2",
+  "private": true,
+  "scripts": {
+    "start" : "npx tailwindcss -i ./tailwind.css -o ./style.css --watch"
+  }
+}
