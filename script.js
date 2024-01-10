@@ -25,7 +25,7 @@ async function crack() {
 		let tryouts = await getTryouts().then((e) => e.json());
 		if (tryouts) {
 			let hs = localStorage.getItem("tryoutClicked");
-			hs = JSON.parse(hs);
+			hs = hs ? JSON.parse(hs) : [];
 			modaltryoutsbody.innerHTML = "";
 			tryouts.forEach((e) => {
 				let newCard = document.createElement("div");
