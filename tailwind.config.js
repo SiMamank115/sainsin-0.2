@@ -6,8 +6,9 @@ module.exports = {
 	},
 	daisyui: {
 		themes: ["nord", "dark"],
-	  },
-	
+		darkTheme: "dark",
+	},
+
 	plugins: [require("daisyui")],
 };
 //* npx tailwindcss -i ./tailwind.css -o ./style.css --watch

@@ -16,9 +16,9 @@
 						id="apikey"
 						type="text"
 						value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNTkxNjA1MiwiZXhwIjoxOTQxNDkyMDUyfQ.Hropee4jXD1uawMxCGiLrTnJWucEaLqebDU41pz-EI0"
-						class="input input-bordered input-sm w-full max-w-xs input-primary max-sm:hidden"
+						class="input input-bordered input-sm w-full max-w-xs input-primary bg-base-200 max-sm:hidden"
 					/>
-					<label class="cursor-pointer grid place-items-center">
+					<label class="cursor-pointer bg-base-200 grid place-items-center">
 						<input id="themetoggler" type="checkbox" value="nord" class="toggle theme-controller bg-base-content row-start-1 col-start-1 col-span-2" />
 						<svg
 							class="col-start-1 row-start-1 stroke-base-100 fill-base-100"
@@ -55,9 +55,23 @@
 			<div class="hero p-3 bg-base-100 rounded-lg grow shadow-2xl">
 				<dialog id="modaltryouts" class="modal">
 					<div class="modal-box w-11/12 max-w-5xl">
-						<h3 class="font-bold text-lg">Tryouts</h3>
+						<h3 class="font-bold text-xl">Tryouts</h3>
 						<form method="dialog">
 							<div class="py-4 flex gap-3 flex-wrap" id="modaltryoutsbody"></div>
+							<div class="modal-action">
+								<button class="btn">Close</button>
+							</div>
+						</form>
+					</div>
+					<form method="dialog" class="modal-backdrop">
+						<button>close</button>
+					</form>
+				</dialog>
+				<dialog id="modalmodules" class="modal">
+					<div class="modal-box w-11/12 max-w-5xl">
+						<h3 class="font-bold text-xl">Sub Tes</h3>
+						<form method="dialog">
+							<div class="py-4 flex gap-3 flex-wrap" id="modalmodulesbody"></div>
 							<div class="modal-action">
 								<button class="btn">Close</button>
 							</div>
