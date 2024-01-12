@@ -8,6 +8,7 @@ cracker.addEventListener("click", crack);
 if (typeof isLight == "boolean") {
 	themetoggler.checked = isLight;
 }
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 function setDark(state = false) {
 	window.localStorage.setItem("theme", state);
 }
@@ -70,6 +71,7 @@ async function crack() {
 	cracker.setAttribute("disabled", true);
 	if (await checkApiKey()) {
 		console.log("go in");
+		modaltryouts.showModal();
 		let tryouts = fetchedTryouts ? fetchedTryouts : await getTryouts().then((e) => e.json());
 		if (tryouts || fetchedTryouts) {
 			tryouts = _.orderBy(tryouts, ["id"], ["desc"]);
@@ -82,69 +84,74 @@ async function crack() {
 			let hs = localStorage.getItem("tryoutClicked");
 			hs = hs ? JSON.parse(hs) : [];
 			modaltryoutsbody.innerHTML = "";
-			partitionKey.reverse().forEach((r) => {
+			let rev = partitionKey.reverse();
+			for (let rr = 0; rr < rev.length; rr++) {
+				let r = rev[rr];
 				let divider = document.createElement("div");
 				divider.classList.add("divider");
 				divider.classList.add("w-full");
 				divider.textContent = r;
 				modaltryoutsbody.appendChild(divider);
-				partition[r].forEach((e) => {
-					let newCard = document.createElement("div");
-					newCard.classList.add(..."indicator grow flex sm:tooltip".split(" "));
-					newCard.id = `tryoutbutton${e.id}`;
-					newCard.dataset.toid = e.id;
-					newCard.dataset.tip = moment(e.created_at).format("MMM");
-					newCard.onclick = async () => {
-						cracker.setAttribute("disabled", true);
-						setToHistory(e.id);
-						let modules = e.modules;
-						if (modules) {
-							await modules.forEach(async (t, idx) => {
-								if (t) {
-									console.log(t);
-									let newCard2 = document.createElement("div");
-									let info = await getModulesInfo(t);
-									if (info) {
-										info[1] = info[1].map((ee) => ee.id);
-										newCard2.classList.add(..."indicator grow flex sm:tooltip".split(" "));
-										newCard2.id = `subtesbutton${e.id}`;
-										newCard2.innerHTML = `<button class="btn bg-base-200 grow w-full">${decodeSubtesType(info[0])} (${t})</button>`;
-										modalmodulesbody.appendChild(newCard2);
-									}
-								}
-							});
-							doneCracking();
-							modalmodules.showModal();
-						} else {
-							doneCracking();
-						}
-						cracker.removeAttribute("disabled");
-					};
-					let clicked = hs.filter((r) => r == e.id).length;
-					if (clicked > 0) {
-						newCard.innerHTML = `<span class="indicator-item font-bold badge ${clicked < 5 ? "badge-primary" : "badge-accent"} text-[10px] mr-5 select-none">${clicked}</span>`;
-					}
-					newCard.innerHTML += `<button class="btn bg-base-200 grow w-full">${e.name
-						.replace("Try Out", "TO")
-						.replace(" SainsIn", "")
-						.replace("2021", "")
-						.replace("2022", "")
-						.replace("2023", "")
-						.replace("UTBK", "")
-						.replace("SNBT", "")
-						.replace("Premium", "Prem")}</button>`;
-					newCard.innerHTML += `<span class="indicator-item indicator-start sm:hidden select-none badge badge-outline bg-base-100 font-bold text-[10px] ml-5">${moment(e.created_at).format(
-						"MMM"
-					)}</span>`;
-					modaltryoutsbody.appendChild(newCard);
-				});
-			});
+				for (let i = 0; i < partition[r].length; i++) {
+					let e = partition[r][i];
+					modaltryoutsbody.appendChild(createToCard(e, hs));
+					await sleep(50);
+				}
+			}
 		}
-		modaltryouts.showModal();
 	} else {
 		doneCracking();
 	}
 	cracker.removeAttribute("disabled");
+}
+function createToCard(to, hs) {
+	let e = to;
+	let newCard = document.createElement("div");
+	newCard.classList.add(..."indicator grow flex sm:tooltip".split(" "));
+	newCard.id = `tryoutbutton${e.id}`;
+	newCard.dataset.toid = e.id;
+	newCard.dataset.tip = moment(e.created_at).format("MMM");
+	newCard.onclick = async () => {
+		cracker.setAttribute("disabled", true);
+		setToHistory(e.id);
+		let modules = e.modules;
+		if (modules) {
+			await modules.forEach(async (t, idx) => {
+				if (t) {
+					console.log(t);
+					let newCard2 = document.createElement("div");
+					let info = await getModulesInfo(t);
+					if (info) {
+						info[1] = info[1].map((ee) => ee.id);
+						newCard2.classList.add(..."indicator grow flex sm:tooltip".split(" "));
+						newCard2.id = `subtesbutton${e.id}`;
+						newCard2.innerHTML = `<button class="btn bg-base-200 grow w-full">${decodeSubtesType(info[0])} (${t})</button>`;
+						modalmodulesbody.appendChild(newCard2);
+					}
+				}
+			});
+			doneCracking();
+			modalmodules.showModal();
+		} else {
+			doneCracking();
+		}
+		cracker.removeAttribute("disabled");
+	};
+	let clicked = hs.filter((r) => r == e.id).length;
+	if (clicked > 0) {
+		newCard.innerHTML = `<span class="indicator-item font-bold badge ${clicked < 5 ? "badge-primary" : "badge-accent"} text-[10px] mr-5 select-none">${clicked}</span>`;
+	}
+	newCard.innerHTML += `<button class="btn bg-base-200 grow w-full">${e.name
+		.replace("Try Out", "TO")
+		.replace(" SainsIn", "")
+		.replace("2021", "")
+		.replace("2022", "")
+		.replace("2023", "")
+		.replace("UTBK", "")
+		.replace("SNBT", "")
+		.replace("Premium", "Prem")}</button>`;
+	newCard.innerHTML += `<span class="indicator-item indicator-start sm:hidden select-none badge badge-outline bg-base-100 font-bold text-[10px] ml-5">${moment(e.created_at).format("MMM")}</span>`;
+	return newCard;
 }
 async function getModulesInfo(id) {
 	let modules = await getModules(id).then((e) => e.json());
