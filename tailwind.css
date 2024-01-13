@@ -12,3 +12,6 @@
 	--b3: 0.859258 0.021374 263.749256;
 	--bc: 0.324374 0.022945 264.182036;
 }
+.join.join-vertical > :where(*:not(:first-child)) {
+	margin-top: -2px;
+}
