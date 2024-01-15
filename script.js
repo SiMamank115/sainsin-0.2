@@ -72,14 +72,22 @@ async function loadTO(str) {
 	let questions = await getQuestions(module).then((e) => e.json());
 	let menus = ``;
 	questions.forEach((e, idx) => {
-		menus += `<button class='btn bg-base-200 shadow-base-content/20 shadow grow md:basis-40 basis-20'>${idx}</button>`;
+		menus += `<button data-role="menu" class='btn bg-base-200 shadow-base-content/20 shadow grow md:basis-40 basis-20'>${idx + 1}</button>`;
 	});
 	console.log(questions);
 	await sleep(100);
-	hero.innerHTML += createAccordion([
+	hero.innerHTML = createAccordion([
 		[menus, "Menu"],
 		["LMAO2", "Question"],
 	]);
+	let menusNode = document.querySelectorAll("[data-role]");
+	menusNode.forEach((e) => {
+		e.addEventListener("click", (event) => {
+			menusNode.forEach((r) => r.classList.remove(..."bg-primary text-primary-content".split(" ")));
+			event.target.classList.add(..."bg-primary text-primary-content".split(" "));
+			console.log(event.target);
+		});
+	});
 }
 function createAccordion(
 	content = [
@@ -90,15 +98,21 @@ function createAccordion(
 	let opening = '<div class="join join-vertical w-full">';
 	let body = "";
 	let ending = "</div>";
-	content.forEach((e) => {
+	content.forEach((e, idx) => {
+		let questionTemplate = `<div id="questionContent" class='w-full'>${e?.outerHTML ?? e?.[0] ?? "Error Load Question"}</div>
+		<div class='basis-1/3 grow btn' id='answerA'>A</div>
+		<div class='basis-1/3 grow btn' id='answerB'>B</div>
+		<div class='basis-1/3 grow btn' id='answerC'>C</div>
+		<div class='basis-1/3 grow btn' id='answerD'>D</div>
+		<div class='basis-1/3 grow btn' id='answerD'>D</div>`;
 		body += `
 		<div class="collapse collapse-arrow join-item border-2 border-base-content">
-			<input type="radio" name="my-accordion-4" checked="checked" /> 
+			<input id="${idx == 0 ? "accordionmenu" : "accordionquestion"}" type="radio" name="my-accordion-4" ${idx == 0 ? "checked" : ""} /> 
 			<div class="collapse-title text-xl font-medium">
 				${e?.dataset?.title ?? e?.[1] ?? "Click"}
 			</div>
 			<div class="collapse-content flex flex-wrap gap-3"> 
-			${e?.outerHTML ?? e?.[0] ?? "<p>sad</p>"}
+			${idx == 0 ? e?.outerHTML ?? e?.[0] ?? "<p>sad</p>" : questionTemplate}
 			</div>
 		</div>`;
 	});
