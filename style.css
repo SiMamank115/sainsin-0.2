@@ -2015,7 +2015,7 @@ details.collapse summary::-webkit-details-marker {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-duration: 0.2s;
-  top: 50%;
+  top: 1.9rem;
   inset-inline-end: 1.4rem;
   content: "";
   transform-origin: 75% 75%;
@@ -2948,10 +2948,6 @@ details.collapse summary::-webkit-details-marker {
   flex-basis: 5rem;
 }
 
-.basis-1\/3 {
-  flex-basis: 33.333333%;
-}
-
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
@@ -3282,6 +3278,10 @@ details.collapse summary::-webkit-details-marker {
     right: auto;
     bottom: var(--tooltip-tail-offset);
   }
+}
+
+.hover\:bg-primary\/60:hover {
+  background-color: var(--fallback-p,oklch(var(--p)/0.6));
 }
 
 @media not all and (min-width: 640px) {

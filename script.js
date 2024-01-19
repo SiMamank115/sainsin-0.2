@@ -66,13 +66,18 @@ function decodeSubtesType(type) {
 	}
 	return res;
 }
+function showTO(q) {
+	if (!questionContent) return;
+	questionContent.textContent = q.prompt;
+	console.log(q);
+}
 let fetchedTryouts;
 async function loadTO(str) {
 	let module = str.split(",");
 	let questions = await getQuestions(module).then((e) => e.json());
 	let menus = ``;
 	questions.forEach((e, idx) => {
-		menus += `<button data-role="menu" class='btn bg-base-200 shadow-base-content/20 shadow grow md:basis-40 basis-20'>${idx + 1}</button>`;
+		menus += `<button data-role="menu" data-question='${idx}' class='btn bg-base-200 shadow-base-content/20 shadow grow md:basis-40 basis-20'>${idx + 1}</button>`;
 	});
 	console.log(questions);
 	await sleep(100);
@@ -83,9 +88,11 @@ async function loadTO(str) {
 	let menusNode = document.querySelectorAll("[data-role]");
 	menusNode.forEach((e) => {
 		e.addEventListener("click", (event) => {
-			menusNode.forEach((r) => r.classList.remove(..."bg-primary text-primary-content".split(" ")));
-			event.target.classList.add(..."bg-primary text-primary-content".split(" "));
-			console.log(event.target);
+			menusNode.forEach((r) => r.classList.remove(..."bg-primary text-primary-content hover:bg-primary/60".split(" ")));
+			event.target.classList.add(..."bg-primary text-primary-content hover:bg-primary/60".split(" "));
+			if (event.target.dataset.question) {
+				showTO(questions[event.target.dataset.question]);
+			}
 		});
 	});
 }
@@ -100,11 +107,7 @@ function createAccordion(
 	let ending = "</div>";
 	content.forEach((e, idx) => {
 		let questionTemplate = `<div id="questionContent" class='w-full'>${e?.outerHTML ?? e?.[0] ?? "Error Load Question"}</div>
-		<div class='basis-1/3 grow btn' id='answerA'>A</div>
-		<div class='basis-1/3 grow btn' id='answerB'>B</div>
-		<div class='basis-1/3 grow btn' id='answerC'>C</div>
-		<div class='basis-1/3 grow btn' id='answerD'>D</div>
-		<div class='basis-1/3 grow btn' id='answerD'>D</div>`;
+		<div id="questionSelection"></div>`;
 		body += `
 		<div class="collapse collapse-arrow join-item border-2 border-base-content">
 			<input id="${idx == 0 ? "accordionmenu" : "accordionquestion"}" type="radio" name="my-accordion-4" ${idx == 0 ? "checked" : ""} /> 

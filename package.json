@@ -3,6 +3,9 @@
   "version": "0.2",
   "private": true,
   "scripts": {
-    "start" : "npx tailwindcss -i ./tailwind.css -o ./style.css --watch"
+    "start": "npx tailwindcss -i ./tailwind.css -o ./style.css --watch"
+  },
+  "dependencies": {
+    "daisyui": "^4.6.0"
   }
 }
