@@ -15,3 +15,12 @@
 .join.join-vertical > :where(*:not(:first-child)) {
 	margin-top: -2px;
 }
+span:has(> .katex-display) {
+	display: inline-block;
+}
+.katex-display {
+	margin: 0;
+}
+#accordionquestioncontent > * {
+	min-width: 100%;
+}

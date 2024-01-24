@@ -67,8 +67,22 @@ function decodeSubtesType(type) {
 	return res;
 }
 function showTO(q) {
-	if (!questionContent) return;
-	questionContent.textContent = q.prompt;
+	if (!showdown?.makeHtml) showdown.Converter();
+	if (!accordionquestioncontent) return;
+	let rawInner = texme.render(q.prompt);
+	let answers = "";
+	let answersOpen = '<div class="flex w-full flex-wrap gap-3 items-stretch">';
+	let answersClose = "</div>";
+	let rawAnswers = [q?.question_a, q?.question_b, q?.question_c, q?.question_d, q?.question_e];
+	rawAnswers.forEach((e) => {
+		if (e) {
+			answers += `<button id="answer-a" class="py-3 min-h-fit h-full btn bg-base-200 shadow-base-content/20 shadow grow md:basis-40 basis-20">${texme.render(e)}</button>`;
+		}
+	});
+	rawInner += answersOpen + answers + answersClose;
+	accordionquestioncontent.innerHTML = rawInner.replaceAll("<code>", "").replaceAll("</code>", "").replaceAll("<pre>", "").replaceAll("</pre>", "");
+	renderLaTex();
+	accordionquestion?.click?.();
 	console.log(q);
 }
 let fetchedTryouts;
@@ -83,7 +97,8 @@ async function loadTO(str) {
 	await sleep(100);
 	hero.innerHTML = createAccordion([
 		[menus, "Menu"],
-		["LMAO2", "Question"],
+		["", "Question"],
+		["", "Solution"],
 	]);
 	let menusNode = document.querySelectorAll("[data-role]");
 	menusNode.forEach((e) => {
@@ -98,24 +113,23 @@ async function loadTO(str) {
 }
 function createAccordion(
 	content = [
-		["", ""],
-		["", ""],
+		["", "Menu"],
+		["", "Question"],
+		["", "Solution"],
 	]
 ) {
 	let opening = '<div class="join join-vertical w-full">';
 	let body = "";
 	let ending = "</div>";
 	content.forEach((e, idx) => {
-		let questionTemplate = `<div id="questionContent" class='w-full'>${e?.outerHTML ?? e?.[0] ?? "Error Load Question"}</div>
-		<div id="questionSelection"></div>`;
 		body += `
 		<div class="collapse collapse-arrow join-item border-2 border-base-content">
-			<input id="${idx == 0 ? "accordionmenu" : "accordionquestion"}" type="radio" name="my-accordion-4" ${idx == 0 ? "checked" : ""} /> 
+			<input id="${idx == 0 ? "accordionmenu" : idx == 1 ? "accordionquestion" : "accordionsolution"}" type="radio" name="my-accordion-4" ${idx == 0 ? "checked" : ""} /> 
 			<div class="collapse-title text-xl font-medium">
 				${e?.dataset?.title ?? e?.[1] ?? "Click"}
 			</div>
-			<div class="collapse-content flex flex-wrap gap-3"> 
-			${idx == 0 ? e?.outerHTML ?? e?.[0] ?? "<p>sad</p>" : questionTemplate}
+			<div id="${idx == 0 ? "accordionmenucontent" : idx == 1 ? "accordionquestioncontent" : "accordionsolutioncontent"}" class="collapse-content flex flex-wrap gap-3 ${idx == 1 ? "flex-row" : ""}"> 
+				${e?.outerHTML ?? e?.[0] ?? ""}
 			</div>
 		</div>`;
 	});

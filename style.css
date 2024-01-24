@@ -2268,6 +2268,12 @@ details.collapse summary::-webkit-details-marker {
   margin-top: 0;
 }
 
+.mockup-phone .display {
+  overflow: hidden;
+  border-radius: 40px;
+  margin-top: -25px;
+}
+
 .mockup-browser .mockup-browser-toolbar .input {
   position: relative;
   margin-left: auto;
@@ -2920,8 +2926,22 @@ details.collapse summary::-webkit-details-marker {
   display: grid;
 }
 
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.h-full {
+  height: 100%;
+}
+
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-fit {
+  min-height: -moz-fit-content;
+  min-height: fit-content;
 }
 
 .w-11\/12 {
@@ -2962,6 +2982,10 @@ details.collapse summary::-webkit-details-marker {
           user-select: none;
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -2972,6 +2996,10 @@ details.collapse summary::-webkit-details-marker {
 
 .place-items-center {
   place-items: center;
+}
+
+.items-stretch {
+  align-items: stretch;
 }
 
 .justify-between {
@@ -3056,6 +3084,11 @@ details.collapse summary::-webkit-details-marker {
   padding-bottom: 1rem;
 }
 
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .text-\[10px\] {
   font-size: 10px;
 }
@@ -3136,6 +3169,18 @@ details.collapse summary::-webkit-details-marker {
 
 .join.join-vertical > :where(*:not(:first-child)) {
   margin-top: -2px;
+}
+
+span:has(> .katex-display) {
+  display: inline-block;
+}
+
+.katex-display {
+  margin: 0;
+}
+
+#accordionquestioncontent > * {
+  min-width: 100%;
 }
 
 @media not all and (min-width: 640px) {

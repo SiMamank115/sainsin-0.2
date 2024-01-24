@@ -4,6 +4,25 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Sainsin v0.2</title>
+		<script src="https://cdn.jsdelivr.net/npm/latex.js/dist/latex.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+			integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+			crossorigin="anonymous"
+		/>
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+			integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8"
+			crossorigin="anonymous"
+		></script>
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+			integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+			crossorigin="anonymous"
+		></script>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
@@ -52,7 +71,8 @@
 					</label>
 				</div>
 			</div>
-			<div class="hero p-3 bg-base-100 rounded-lg grow shadow-2xl" id="hero">
+			<div class="hero p-3 bg-base-100 rounded-lg grow shadow-2xl" id="hero"></div>
+			<div id="dialogs">
 				<dialog id="modaltryouts" class="modal">
 					<div class="modal-box w-11/12 max-w-5xl">
 						<h3 class="font-bold text-xl">Tryouts</h3>
@@ -83,6 +103,27 @@
 				</dialog>
 			</div>
 		</main>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"
+			integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<script>
+			window.texme = { renderOnLoad: false, protectMath: true };
+			window.renderLaTex = function () {
+				renderMathInElement(document.body, {
+					delimiters: [
+						{ left: "$$", right: "$$", display: true },
+						{ left: "$", right: "$", display: false },
+						{ left: "\\(", right: "\\)", display: false },
+						{ left: "\\[", right: "\\]", display: true },
+					],
+					throwOnError: false,
+				});
+			};
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
 		<script src="uri.js"></script>
 		<script src="moment.js"></script>
 		<script src="lodash.js"></script>
