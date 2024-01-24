@@ -71,17 +71,26 @@ function showTO(q) {
 	if (!accordionquestioncontent) return;
 	let rawInner = texme.render(q.prompt);
 	let answers = "";
-	let answersOpen = '<div class="flex w-full flex-wrap gap-3 items-stretch">';
+	let answersOpen = '<div class="flex w-full flex-wrap gap-5 h-fit items-stretch">';
 	let answersClose = "</div>";
 	let rawAnswers = [q?.question_a, q?.question_b, q?.question_c, q?.question_d, q?.question_e];
 	rawAnswers.forEach((e) => {
 		if (e) {
-			answers += `<button id="answer-a" class="py-3 min-h-fit h-full btn bg-base-200 shadow-base-content/20 shadow grow md:basis-40 basis-20">${texme.render(e)}</button>`;
+			answers += `<button class="answer py-3 leading-loose min-h-fit h-auto btn bg-base-200 shadow-base-content/20 shadow grow md:basis-40 basis-20">${texme.render(e)}</button>`;
 		}
 	});
 	rawInner += answersOpen + answers + answersClose;
+	let solution = q.solution;
 	accordionquestioncontent.innerHTML = rawInner.replaceAll("<code>", "").replaceAll("</code>", "").replaceAll("<pre>", "").replaceAll("</pre>", "");
+	accordionsolutioncontent.innerHTML =
+		texme.render(solution) + `<iframe class='mx-auto mt-10' loading="lazy" allowfullscreen	width="420" height="235" src="https://www.youtube.com/embed/${q.youtube_id}"></iframe>`;
 	renderLaTex();
+	let menusNode = document.querySelectorAll(".answer");
+	menusNode.forEach((e) => {
+		e.addEventListener("click", (event) => {
+			accordionsolution?.click?.();
+		});
+	});
 	accordionquestion?.click?.();
 	console.log(q);
 }
