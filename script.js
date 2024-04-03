@@ -2,7 +2,7 @@ const issuer = "https://zcyfhqxqagiwsgrafsei.supabase.co/rest/v1/";
 const paramJoin = "%2";
 const testApiKey = "select=name&limit=1";
 const paginate = 10;
-const isLight = JSON.parse(window.localStorage.getItem("theme"));
+const isLight = window.localStorage.getItem("theme") == "light";
 themetoggler.addEventListener("change", (e) => setDark(e.target.checked));
 cracker.addEventListener("click", crack);
 if (typeof isLight == "boolean") {
@@ -82,8 +82,7 @@ function showTO(q) {
 	rawInner += answersOpen + answers + answersClose;
 	let solution = q.solution;
 	accordionquestioncontent.innerHTML = rawInner.replaceAll("<code>", "").replaceAll("</code>", "").replaceAll("<pre>", "").replaceAll("</pre>", "");
-	accordionsolutioncontent.innerHTML =
-		texme.render(solution) + `<iframe class='mx-auto mt-10' loading="lazy" allowfullscreen	width="420" height="235" src="https://www.youtube.com/embed/${q.youtube_id}"></iframe>`;
+	accordionsolutioncontent.innerHTML = texme.render(solution) + `<iframe class='mx-auto mt-10' loading="lazy" allowfullscreen	width="420" height="235" src="https://www.youtube.com/embed/${q.youtube_id}"></iframe>`;
 	renderLaTex();
 	let menusNode = document.querySelectorAll(".answer");
 	menusNode.forEach((e) => {
@@ -223,15 +222,7 @@ function createToCard(to, hs) {
 	if (clicked > 0) {
 		newCard.innerHTML = `<span class="indicator-item font-bold badge ${clicked < 5 ? "badge-primary" : "badge-accent"} text-[10px] mr-5 select-none">${clicked}</span>`;
 	}
-	newCard.innerHTML += `<button class="btn bg-base-200 grow w-full">${e.name
-		.replace("Try Out", "TO")
-		.replace(" SainsIn", "")
-		.replace("2021", "")
-		.replace("2022", "")
-		.replace("2023", "")
-		.replace("UTBK", "")
-		.replace("SNBT", "")
-		.replace("Premium", "Prem")}</button>`;
+	newCard.innerHTML += `<button class="btn bg-base-200 grow w-full">${e.name.replace("Try Out", "TO").replace(" SainsIn", "").replace("2021", "").replace("2022", "").replace("2023", "").replace("UTBK", "").replace("SNBT", "").replace("Premium", "Prem")}</button>`;
 	newCard.innerHTML += `<span class="indicator-item indicator-start sm:hidden select-none badge badge-outline bg-base-100 font-bold text-[10px] ml-5">${moment(e.created_at).format("MMM")}</span>`;
 	return newCard;
 }
